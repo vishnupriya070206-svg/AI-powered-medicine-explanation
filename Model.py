@@ -32,13 +32,17 @@ model.classifier[1] = nn.Linear(
     len(class_names)
 )
 
-model.load_state_dict(torch.load("medicine_classifier.pth", map_location=device))
+model.load_state_dict(torch.load("medicine_classifier_best.pth", map_location=device))
 model.to(device)
 model.eval()
 
 transform = transforms.Compose([
-    transforms.Resize((224,224)),
-    transforms.ToTensor()
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
 ])
 
 def predict(image):
